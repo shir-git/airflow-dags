@@ -7,13 +7,14 @@ from airflow.models import Variable
 #mayaya = Variable.get("mayaya")
 def get_secrets(**kwargs):
     # conn = BaseHook.get_connection(kwargs['vaulti'])
-    conn = BaseHook.get_connection('vaulti')
+    conn = BaseHook.get_connection('vaulti2')
     print(f"Password: {conn.password}, Login: {conn.login}, URI: {conn.get_uri()}, Host: {conn.host}")
-
+    print(conn)
+    
 with DAG('example_secrets_dags', start_date=datetime(2020, 1, 1), schedule_interval=None) as dag:
 
     test_task = PythonOperator(
         task_id='test-task',
         python_callable=get_secrets,
-        op_kwargs={'my_conn_id': 'vaulti'},
+        op_kwargs={'my_conn_id': 'vaulti2'},
     )
